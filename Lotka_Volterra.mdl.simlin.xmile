@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE" xmlns:simlin="https://simlin.com/XMILE/v1.0">
+    <header>
+        <vendor>Simlin</vendor>
+        <product version="0.1.0" lang="en">Simlin</product>
+    </header>
+    <sim_specs method="euler" time_units="Year">
+        <start>0</start>
+        <stop>50</stop>
+        <dt>0.0625</dt>
+    </sim_specs>
+    <model>
+        <variables>
+            <aux name="prey_reproduction_ratio">
+                <eqn>3</eqn>
+                <units>Hares/(Hare*Year)</units>
+            </aux>
+            <flow name="prey_deaths">
+                <eqn>Prey*Fractional_Predation_Rate</eqn>
+                <units>Hares/Year</units>
+            </flow>
+            <aux name="reference_prey_population">
+                <eqn>1000</eqn>
+            </aux>
+            <stock name="prey">
+                <eqn>Initial_Prey_Population</eqn>
+                <units>Hares</units>
+                <inflow>prey_births</inflow>
+                <outflow>prey_deaths</outflow>
+            </stock>
+            <aux name="reference_predator_reproduction_ratio">
+                <eqn>1</eqn>
+            </aux>
+            <flow name="predator_deaths">
+                <eqn>Predators/Predator_Lifespan</eqn>
+                <units>Foxes/Year</units>
+            </flow>
+            <flow name="predator_births">
+                <eqn>Predators*Predator_Reproduction_Ratio</eqn>
+                <units>Foxes/Year</units>
+            </flow>
+            <aux name="initial_predator_population">
+                <eqn>20</eqn>
+            </aux>
+            <stock name="predators">
+                <eqn>Initial_Predator_Population</eqn>
+                <units>Foxes</units>
+                <inflow>predator_births</inflow>
+                <outflow>predator_deaths</outflow>
+            </stock>
+            <aux name="fractional_predation_rate">
+                <eqn>Reference_Fractional_Predation_Rate*Predators/Reference_Predators</eqn>
+                <doc>Increases Linearly with Number of Predators</doc>
+                <units>Hares/(Year*Hare)</units>
+            </aux>
+            <aux name="predator_lifespan">
+                <eqn>10</eqn>
+                <units>Years</units>
+            </aux>
+            <aux name="reference_fractional_predation_rate">
+                <eqn>0.2</eqn>
+                <units>Hares/(Year*Hare)</units>
+            </aux>
+            <aux name="predator_reproduction_ratio">
+                <eqn>Reference_Predator_Reproduction_Ratio*Prey/Reference_Prey_Population</eqn>
+                <doc>Increases linearly with prey availability</doc>
+                <units>Foxes/(Fox*Year)</units>
+            </aux>
+            <flow name="prey_births">
+                <eqn>Prey*Prey_Reproduction_Ratio</eqn>
+                <units>Hares/Year</units>
+            </flow>
+            <aux name="reference_predators">
+                <eqn>20</eqn>
+            </aux>
+            <aux name="initial_prey_population">
+                <eqn>1000</eqn>
+            </aux>
+        </variables>
+        <views>
+            <view isee:show_pages="false" page_width="800" page_height="600" view_type="stock_flow">
+                <stock name="Predators" x="364" y="185" label_side="top"></stock>
+                <stock name="Prey" x="366" y="356" label_side="top"></stock>
+                <flow name="Predator_Births" x="263" y="184" label_side="bottom">
+                    <pts>
+                        <pt x="193" y="184"></pt>
+                        <pt x="341.5" y="184"></pt>
+                    </pts>
+                </flow>
+                <flow name="Predator_Deaths" x="471" y="187" label_side="bottom">
+                    <pts>
+                        <pt x="386.5" y="187"></pt>
+                        <pt x="549" y="187"></pt>
+                    </pts>
+                </flow>
+                <flow name="Prey_Births" x="257" y="355.5" label_side="bottom">
+                    <pts>
+                        <pt x="179" y="355.5"></pt>
+                        <pt x="343.5" y="355.5"></pt>
+                    </pts>
+                </flow>
+                <flow name="Prey_Deaths" x="471" y="357.5" label_side="bottom">
+                    <pts>
+                        <pt x="388.5" y="357.5"></pt>
+                        <pt x="546" y="357.5"></pt>
+                    </pts>
+                </flow>
+                <connector angle="-103.07479414626653">
+                    <from>Predators</from>
+                    <to>Predator_Births</to>
+                </connector>
+                <connector angle="61.91679036663362">
+                    <from>Predators</from>
+                    <to>Predator_Deaths</to>
+                </connector>
+                <connector angle="64.3697168443789">
+                    <from>Prey</from>
+                    <to>Prey_Deaths</to>
+                </connector>
+                <connector angle="-112.21635584162664">
+                    <from>Prey</from>
+                    <to>Prey_Births</to>
+                </connector>
+                <aux name="Prey_Reproduction_Ratio" x="229" y="426" label_side="bottom"></aux>
+                <aux name="Predator_Lifespan" x="513" y="141" label_side="bottom"></aux>
+                <aux name="Fractional_Predation_Rate" x="448" y="275" label_side="bottom"></aux>
+                <aux name="Predator_Reproduction_Ratio" x="246" y="277" label_side="bottom"></aux>
+                <connector angle="120.54970423819384">
+                    <from>Predator_Reproduction_Ratio</from>
+                    <to>Predator_Births</to>
+                </connector>
+                <connector angle="102.30917614427727">
+                    <from>Prey_Reproduction_Ratio</from>
+                    <to>Prey_Births</to>
+                </connector>
+                <connector angle="172.32990103860428">
+                    <from>Prey</from>
+                    <to>Predator_Reproduction_Ratio</to>
+                </connector>
+                <connector angle="-28.787290135926696">
+                    <from>Predators</from>
+                    <to>Fractional_Predation_Rate</to>
+                </connector>
+                <connector angle="-52.85532522271899">
+                    <from>Fractional_Predation_Rate</from>
+                    <to>Prey_Deaths</to>
+                </connector>
+                <connector angle="-139.20879140180523">
+                    <from>Predator_Lifespan</from>
+                    <to>Predator_Deaths</to>
+                </connector>
+                <aux name="Initial_Predator_Population" x="220.7999267578125" y="115.60002136230469" label_side="bottom"></aux>
+                <aux name="Initial_Prey_Population" x="363" y="429" label_side="bottom"></aux>
+                <aux name="Reference_Predator_Reproduction_Ratio" x="126.40008544921875" y="238.39996337890625" label_side="left"></aux>
+                <aux name="Reference_Prey_Population" x="124" y="298" label_side="bottom"></aux>
+                <aux name="Reference_Fractional_Predation_Rate" x="568" y="307" label_side="bottom"></aux>
+                <aux name="Reference_Predators" x="563" y="240" label_side="bottom"></aux>
+                <connector angle="-164.40625712604577">
+                    <from>Reference_Predators</from>
+                    <to>Fractional_Predation_Rate</to>
+                </connector>
+                <connector angle="163.28563234228886">
+                    <from>Reference_Fractional_Predation_Rate</from>
+                    <to>Fractional_Predation_Rate</to>
+                </connector>
+                <connector angle="-17.846952334845298">
+                    <from>Reference_Predator_Reproduction_Ratio</from>
+                    <to>Predator_Reproduction_Ratio</to>
+                </connector>
+                <connector angle="10.8393922451246">
+                    <from>Reference_Prey_Population</from>
+                    <to>Predator_Reproduction_Ratio</to>
+                </connector>
+            </view>
+        </views>
+    </model>
+</xmile>

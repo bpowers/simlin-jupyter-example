@@ -1,0 +1,2 @@
+jupyter_simlin >= 0.2.0
+pysd >= 0.10.0
